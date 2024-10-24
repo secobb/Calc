@@ -43,7 +43,8 @@ public class CalcController {
     }
 
     public void onRezButtonClick(ActionEvent actionEvent){
-        CalcOperations.rezOperation (calcWin);
+        Button btn = (Button) actionEvent.getSource();
+        CalcOperations.rezOperation (calcWin,btn);
     }
 
     public void onClrButtonClick(ActionEvent actionEvent){

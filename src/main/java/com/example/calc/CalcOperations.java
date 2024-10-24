@@ -14,40 +14,71 @@ public class CalcOperations {
         Matcher matcher = pattern.matcher(label.getText());
         boolean matchFound = matcher.find();
         if(matchFound) {
-            CalcOperations.rezOperation(label);
+            CalcOperations.rezOperation(label,button);
         } else if (label.getText() != null && !label.getText().equals("0")) {
             String txt = label.getText();
             label.setText(txt+button.getText());
         }
-        else
+        else if(!button.getText().equals("+") || !button.getText().equals("-") || !button.getText().equals("*") || !button.getText().equals("/"))
             label.setText(button.getText());
     }
 
-    public static void rezOperation (Label label){
+    public static void rezOperation (Label label, Button button){
+        int rez = 0;
         if (label.getText().contains("+")) {
-            int num1 = Integer.parseInt(label.getText().substring(0, label.getText().indexOf("+")));
-            int num2 = Integer.parseInt(label.getText().substring(label.getText().indexOf("+") + 1));
-            int rez = num1 + num2;
-            label.setText(Integer.toString(rez));
-        } else if (label.getText().contains("-")) {
-            int num1 = Integer.parseInt(label.getText().substring(0, label.getText().indexOf("-")));
-            int num2 = Integer.parseInt(label.getText().substring(label.getText().indexOf("-") + 1));
-            int rez = num1 - num2;
-            label.setText(Integer.toString(rez));
-        } else if (label.getText().contains("*")) {
-            int num1 = Integer.parseInt(label.getText().substring(0, label.getText().indexOf("*")));
-            int num2 = Integer.parseInt(label.getText().substring(label.getText().indexOf("*") + 1));
-            int rez = num1 * num2;
-            label.setText(Integer.toString(rez));
-        } else if (label.getText().contains("/")) {
-            int num1 = Integer.parseInt(label.getText().substring(0, label.getText().indexOf("/")));
-            int num2 = Integer.parseInt(label.getText().substring(label.getText().indexOf("/") + 1));
-            if (num2 == 0) {
-                clear(label);
-                return;
+            String str1 = label.getText().substring(0, label.getText().indexOf("+"));
+            String str2 = label.getText().substring(label.getText().indexOf("+") + 1);
+            if (!str2.isEmpty()) {
+                int num1 = Integer.parseInt(str1);
+                int num2 = Integer.parseInt(str2);
+                rez = num1 + num2;
             }
-            int rez = num1 / num2;
-            label.setText(Integer.toString(rez));
+            else return;
+            if (button.getText().equals("+")){
+                label.setText(rez+"+");
+            }
+            else label.setText(Integer.toString(rez));
+        } else if (label.getText().contains("-")) {
+            String str1 = label.getText().substring(0, label.getText().indexOf("-"));
+            String str2 = label.getText().substring(label.getText().indexOf("-") + 1);
+            if (!str2.isEmpty()) {
+                int num1 = Integer.parseInt(str1);
+                int num2 = Integer.parseInt(str2);
+                rez = num1 - num2;
+            }
+            else return;
+            if (button.getText().equals("-")){
+                label.setText(rez+"-");
+            }
+            else label.setText(Integer.toString(rez));
+        } else if (label.getText().contains("*")) {
+            String str1 = label.getText().substring(0, label.getText().indexOf("*"));
+            String str2 = label.getText().substring(label.getText().indexOf("*") + 1);
+            if (!str2.isEmpty()) {
+                int num1 = Integer.parseInt(str1);
+                int num2 = Integer.parseInt(str2);
+                rez = num1 * num2;
+            }
+            else return;
+            if (button.getText().equals("*")){
+                label.setText(rez+"*");
+            } else label.setText(Integer.toString(rez));
+        } else if (label.getText().contains("/")) {
+            String str1 = label.getText().substring(0, label.getText().indexOf("/"));
+            String str2 = label.getText().substring(label.getText().indexOf("/") + 1);
+            if (!str2.isEmpty()) {
+                int num1 = Integer.parseInt(str1);
+                int num2 = Integer.parseInt(str2);
+                if (num2 == 0) {
+                    clear(label);
+                    return;
+                }
+                rez = num1 / num2;
+            }
+            else return;
+            if (button.getText().equals("/")){
+                label.setText(rez+"/");
+            } else label.setText(Integer.toString(rez));
         }
     }
 
