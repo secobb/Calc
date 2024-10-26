@@ -6,7 +6,7 @@ import javafx.scene.control.Label;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class CalcOperations {
+class CalcOperations {
 
     public static void matchOperation(Label label, Button button){
         String regex = "[/*+\\-]";
@@ -14,7 +14,7 @@ public class CalcOperations {
         Matcher matcher = pattern.matcher(label.getText());
         boolean matchFound = matcher.find();
         if(matchFound) {
-            CalcOperations.rezOperation(label,button);
+            rezOperation(label,button);
         } else if (label.getText() != null && !label.getText().equals("0")) {
             String txt = label.getText();
             label.setText(txt+button.getText());
@@ -24,51 +24,43 @@ public class CalcOperations {
     }
 
     public static void rezOperation (Label label, Button button){
-        int rez = 0;
+        double rez;
         if (label.getText().contains("+")) {
             String str1 = label.getText().substring(0, label.getText().indexOf("+"));
             String str2 = label.getText().substring(label.getText().indexOf("+") + 1);
             if (!str2.isEmpty()) {
-                int num1 = Integer.parseInt(str1);
-                int num2 = Integer.parseInt(str2);
+                double num1 = Double.parseDouble(str1);
+                double num2 = Double.parseDouble(str2);
                 rez = num1 + num2;
             }
             else return;
-            if (button.getText().equals("+")){
-                label.setText(rez+"+");
-            }
-            else label.setText(Integer.toString(rez));
+            addSymbol(button, label, rez);
         } else if (label.getText().contains("-")) {
             String str1 = label.getText().substring(0, label.getText().indexOf("-"));
             String str2 = label.getText().substring(label.getText().indexOf("-") + 1);
             if (!str2.isEmpty()) {
-                int num1 = Integer.parseInt(str1);
-                int num2 = Integer.parseInt(str2);
+                double num1 = Double.parseDouble(str1);
+                double num2 = Double.parseDouble(str2);
                 rez = num1 - num2;
             }
             else return;
-            if (button.getText().equals("-")){
-                label.setText(rez+"-");
-            }
-            else label.setText(Integer.toString(rez));
+            addSymbol(button, label, rez);
         } else if (label.getText().contains("*")) {
             String str1 = label.getText().substring(0, label.getText().indexOf("*"));
             String str2 = label.getText().substring(label.getText().indexOf("*") + 1);
             if (!str2.isEmpty()) {
-                int num1 = Integer.parseInt(str1);
-                int num2 = Integer.parseInt(str2);
+                double num1 = Double.parseDouble(str1);
+                double num2 = Double.parseDouble(str2);
                 rez = num1 * num2;
             }
             else return;
-            if (button.getText().equals("*")){
-                label.setText(rez+"*");
-            } else label.setText(Integer.toString(rez));
+            addSymbol(button, label, rez);
         } else if (label.getText().contains("/")) {
             String str1 = label.getText().substring(0, label.getText().indexOf("/"));
             String str2 = label.getText().substring(label.getText().indexOf("/") + 1);
             if (!str2.isEmpty()) {
-                int num1 = Integer.parseInt(str1);
-                int num2 = Integer.parseInt(str2);
+                double num1 = Double.parseDouble(str1);
+                double num2 = Double.parseDouble(str2);
                 if (num2 == 0) {
                     clear(label);
                     return;
@@ -76,13 +68,19 @@ public class CalcOperations {
                 rez = num1 / num2;
             }
             else return;
-            if (button.getText().equals("/")){
-                label.setText(rez+"/");
-            } else label.setText(Integer.toString(rez));
+            addSymbol(button, label, rez);
         }
     }
 
     public static void clear (Label label){
         label.setText("0");
+    }
+
+    protected static void addSymbol (Button button, Label label, double rezult){
+        if (button.getText().equals("+") || button.getText().equals("-") || button.getText().equals("*") || button.getText().equals("/")){
+            String txt = button.getText();
+            label.setText(rezult+txt);
+        }
+        else label.setText(Double.toString(rezult));
     }
 }
